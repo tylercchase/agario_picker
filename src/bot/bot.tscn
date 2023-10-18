@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://c360djina1qqn"]
+
+[ext_resource type="Script" path="res://src/bot/bot.gd" id="1_4lx51"]
+[ext_resource type="PackedScene" uid="uid://2x3xl6utiigj" path="res://assets/Dancing Twerk.fbx" id="2_wyiw0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_usr5e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6mcmw"]
+radius = 9.333
+
+[node name="MovieBot" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.655, 0)
+script = ExtResource("1_4lx51")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_usr5e")
+
+[node name="MovieLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29805, 0)
+billboard = 2
+text = "Test"
+
+[node name="DetectionArea" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_6mcmw")
+
+[node name="Root Scene" parent="." instance=ExtResource("2_wyiw0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.682416, 0)

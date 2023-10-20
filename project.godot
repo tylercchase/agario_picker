@@ -75,7 +75,7 @@ Settings/Show_Tooltips=true
 [application]
 
 config/name="gamer_pick_2"
-run/main_scene="res://src/main.tscn"
+run/main_scene="res://src/main_menu.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

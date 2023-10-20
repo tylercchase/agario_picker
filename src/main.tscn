@@ -1,20 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://c085ouxgb8ekw"]
+[gd_scene load_steps=11 format=3 uid="uid://c085ouxgb8ekw"]
 
 [ext_resource type="Texture2D" uid="uid://dd7nnxl33pfll" path="res://assets/kloppenheim_02_puresky_4k.exr" id="1_anh6o"]
 [ext_resource type="PackedScene" uid="uid://c360djina1qqn" path="res://src/bot/bot.tscn" id="2_6vf3p"]
 [ext_resource type="Script" path="res://free_look_camera.gd" id="3_rfc2s"]
+[ext_resource type="Script" path="res://src/BotManager.gd" id="4_bcya7"]
 [ext_resource type="Script" path="res://src/FoodManager.gd" id="4_si1aa"]
 [ext_resource type="PackedScene" uid="uid://dgw7tsr426mn7" path="res://src/food/food.tscn" id="5_rg8vf"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4btc"]
-albedo_color = Color(0.698039, 0.384314, 0.160784, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_h0okg"]
-material = SubResource("StandardMaterial3D_r4btc")
-size = Vector2(50, 50)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_yuv77"]
-data = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, 25, -25, 0, -25, 25, 0, -25)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3eish"]
+albedo_color = Color(0.729412, 0.384314, 0.0901961, 1)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_attmf"]
 panorama = ExtResource("1_anh6o")
@@ -29,13 +23,31 @@ sdfgi_enabled = true
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_h0okg")
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+use_collision = true
+size = Vector3(100, 1, 100)
+material = SubResource("StandardMaterial3D_3eish")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+operation = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_yuv77")
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 25.0414)
+size = Vector3(10, 1, 10)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -27.2218)
+size = Vector3(10, 1, 10)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGBox3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6099, -0.999999, -0.0564823)
+size = Vector3(10, 1, 10)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGBox3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.9274, -0.999999, -0.0564823)
+size = Vector3(10, 1, 10)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dmb0k")
@@ -45,17 +57,46 @@ transform = Transform3D(0.81308, 0.582151, -1.73495e-08, -0.227521, 0.317774, 0.
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.5443, 2, 0)
 script = ExtResource("3_rfc2s")
 
 [node name="FoodManager" type="Node3D" parent="."]
 script = ExtResource("4_si1aa")
+food_scene = ExtResource("5_rg8vf")
 
 [node name="BotManager" type="Node3D" parent="."]
+script = ExtResource("4_bcya7")
+bot_scene = ExtResource("2_6vf3p")
 
-[node name="MovieBot" parent="BotManager" instance=ExtResource("2_6vf3p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.692, 0.594651, -3.45746)
-movie_name = "Test"
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment_horizontal = 0
 
-[node name="Food" parent="." instance=ExtResource("5_rg8vf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.607682, 0.579213, -8.12926)
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="AspectRatioContainer/HBoxContainer"]
+custom_minimum_size = Vector2(211.055, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/HBoxContainer/Panel"]
+layout_mode = 2
+offset_right = 211.0
+offset_bottom = 648.0
+
+[node name="Control" type="HBoxContainer" parent="AspectRatioContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="AspectRatioContainer/HBoxContainer/Panel/VBoxContainer/Control"]
+layout_mode = 2
+text = "Test : "
+
+[node name="Label2" type="Label" parent="AspectRatioContainer/HBoxContainer/Panel/VBoxContainer/Control"]
+layout_mode = 2
+text = "12"

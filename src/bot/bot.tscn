@@ -1,12 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://c360djina1qqn"]
+[gd_scene load_steps=7 format=3 uid="uid://c360djina1qqn"]
 
 [ext_resource type="Script" path="res://src/bot/bot.gd" id="1_4lx51"]
-[ext_resource type="PackedScene" uid="uid://2x3xl6utiigj" path="res://assets/Dancing Twerk.fbx" id="2_wyiw0"]
+[ext_resource type="PackedScene" uid="uid://dmmj3tld2cis6" path="res://src/bot/bot_model.tscn" id="2_hj7hv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_usr5e"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6mcmw"]
 radius = 9.333
+
+[sub_resource type="SphereMesh" id="SphereMesh_6g53d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vnflg"]
 
 [node name="MovieBot" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.655, 0)
@@ -17,7 +21,7 @@ shape = SubResource("BoxShape3D_usr5e")
 
 [node name="MovieLabel" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29805, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03631, 0)
 billboard = 2
 text = "Test"
 
@@ -29,5 +33,10 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
 shape = SubResource("SphereShape3D_6mcmw")
 
-[node name="Root Scene" parent="." instance=ExtResource("2_wyiw0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.682416, 0)
+[node name="Root Scene2" parent="." instance=ExtResource("2_hj7hv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.651723, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_6g53d")
+surface_material_override/0 = SubResource("StandardMaterial3D_vnflg")

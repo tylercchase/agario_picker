@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgw7tsr426mn7"]
+[gd_scene load_steps=5 format=3 uid="uid://dgw7tsr426mn7"]
+
+[ext_resource type="Script" path="res://src/food/food.gd" id="1_0u6by"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_hcpye"]
 
@@ -7,8 +9,10 @@ albedo_color = Color(0.266667, 0.580392, 0.635294, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2t4y4"]
 
-[node name="Food" type="StaticBody3D"]
+[node name="Food" type="RigidBody3D"]
 collision_layer = 3
+script = ExtResource("1_0u6by")
+food_value = 0.15
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_hcpye")
